@@ -2,16 +2,12 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mood Travel - อุตรดิตถ์</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: "Tahoma", sans-serif;
+      font-family: Tahoma, sans-serif;
       background: linear-gradient(to right, #e0eafc, #cfdef3);
       text-align: center;
       padding: 40px;
@@ -29,15 +25,12 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
 
-    h2 {
+    h1, h2 {
       color: #3f72af;
       margin-bottom: 20px;
     }
 
-    .input-group {
-      margin: 15px 0;
-    }
-
+    .input-group { margin: 15px 0; }
     input {
       width: 100%;
       padding: 12px;
@@ -63,10 +56,7 @@
       margin-top: 15px;
     }
 
-    button:hover {
-      background-color: #112d4e;
-    }
-
+    button:hover { background-color: #112d4e; }
     .switch-link {
       margin-top: 15px;
       display: block;
@@ -102,9 +92,7 @@
     .lonely { background-color: #5c5470; }
     .excited { background-color: #ffa931; }
 
-    .mood-btn:hover {
-      transform: scale(1.05);
-    }
+    .mood-btn:hover { transform: scale(1.05); }
 
     #result {
       margin-top: 30px;
@@ -135,9 +123,26 @@
       margin-bottom: 20px;
     }
 
-    a {
-      color: #f67280;
-      text-decoration: none;
+    a { color: #f67280; text-decoration: none; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body { padding: 20px; }
+      .form-box { width: 90%; padding: 20px; }
+      h1 { font-size: 22px; }
+      h2 { font-size: 20px; }
+      input { font-size: 14px; padding: 10px; }
+      button { font-size: 15px; padding: 10px 16px; }
+      .mood-btn {
+        font-size: 16px;
+        padding: 12px 20px;
+        width: 100%;
+        max-width: 280px;
+      }
+      .emoji { font-size: 48px; }
+      .doraemon-img { width: 120px; }
+      #result, #food { font-size: 16px; }
+      .credit { font-size: 11px; margin-top: 20px; }
     }
   </style>
 </head>
@@ -186,27 +191,27 @@
     <button class="mood-btn calm" onclick="showTrip('calm')">😌 สงบ</button>
     <button class="mood-btn fun" onclick="showTrip('fun')">🤩 สนุก</button>
     <button class="mood-btn lonely" onclick="showTrip('lonely')">🥹 เหงา</button>
-    <button class="mood-btn excited" onclick="showTrip('excited')">😲 ตื่นเต้น</button>
+    <button class="mood-btn excited" onclick="showTrip('excited')">🤯 ตื่นเต้น</button>
 
     <div id="result"></div>
     <div id="food"></div>
 
-    <div class="credit">👤 ยินดีต้อนรับ, <span id="current-user"></span> | <a href="#" onclick="logout()">ออกจากระบบ</a></div>
+    <div class="credit">Mood Travel © 2025 - จังหวัดอุตรดิตถ์</div>
   </div>
 
-  <!-- SCRIPT -->
   <script>
-    let users = JSON.parse(localStorage.getItem('users') || '{}');
+    // เก็บ user ไว้ชั่วคราว (จำลอง database)
+    let users = {};
 
     function switchTo(section) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(section + '-section').classList.add('active');
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(section + "-section").classList.add('active');
     }
 
     function register() {
-      const username = document.getElementById('register-username').value.trim();
-      const password = document.getElementById('register-password').value.trim();
-      const error = document.getElementById('register-error');
+      const username = document.getElementById("register-username").value.trim();
+      const password = document.getElementById("register-password").value.trim();
+      const error = document.getElementById("register-error");
 
       if (!username || !password) {
         error.textContent = "กรุณากรอกข้อมูลให้ครบถ้วน";
@@ -219,61 +224,41 @@
       }
 
       users[username] = password;
-      localStorage.setItem('users', JSON.stringify(users));
-      alert("✅ สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ");
+      alert("สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ");
       switchTo('login');
     }
 
     function login() {
-      const username = document.getElementById('login-username').value.trim();
-      const password = document.getElementById('login-password').value.trim();
-      const error = document.getElementById('login-error');
+      const username = document.getElementById("login-username").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+      const error = document.getElementById("login-error");
 
-      if (users[username] === password) {
-        localStorage.setItem('currentUser', username);
-        document.getElementById("current-user").textContent = username;
-        switchTo('mood');
-      } else {
+      if (!users[username] || users[username] !== password) {
         error.textContent = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+        return;
       }
-    }
 
-    function logout() {
-      localStorage.removeItem('currentUser');
-      switchTo('login');
-    }
-
-    // Auto-login
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-// Auto-login
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-      document.getElementById("current-user").textContent = savedUser;
       switchTo('mood');
     }
-    
+
     function showTrip(mood) {
-      const trips = {
-        calm: ["วัดพระบรมธาตุทุ่งยั้ง", "วัดพระแท่นศิลาอาสน์", "อ่างเก็บน้ำห้วยพาง", "สวนสาธารณะบึงพระราม", "ถนนคนเดินยามเย็น", "ชมวิวแม่น้ำน่าน"],
-        fun: ["ตลาดโคมไฟท่าเสา", "สวนผลไม้ลองกอง-ลางสาด", "ถนนคนเดินอุตรดิตถ์", "ล่องแพไม้ไผ่", "ร้านคาเฟ่ถ่ายรูปเก๋ๆ", "เล่นน้ำตกแม่พูล"],
-        lonely: ["โฮมสเตย์ชุมชนบ้านน้ำปาด", "ทำอาหารพื้นบ้านกับชุมชนลับแล", "ชมไร่กาแฟลับแล", "เดินป่าเขาหลวง", "พักผ่อนริมแม่น้ำ", "อ่านหนังสือที่คาเฟ่สงบๆ"],
-        excited: ["อุทยานแห่งชาติลำน้ำน่าน", "น้ำตกแม่พูล", "น้ำตกห้วยคอม", "ผจญภัยล่องแก่ง", "ปีนหน้าผาจำลอง", "ขี่จักรยานเสือภูเขา"]
-      };
+      const result = document.getElementById("result");
+      const food = document.getElementById("food");
 
-      const foods = {
-        calm: ["ข้าวมันไก่", "ก๋วยเตี๋ยวเรือ", "ส้มตำปูปลาร้า", "น้ำสมุนไพรเย็นๆ"],
-        fun: ["ไก่ทอดเกลือ", "เบอร์เกอร์ท้องถิ่น", "ชานมไข่มุก", "ขนมไทยสีสันสดใส"],
-        lonely: ["โจ๊กหมูร้อนๆ", "ข้าวต้มปลา", "กาแฟดำ", "ขนมปังสังขยา"],
-        excited: ["อาหารปิ้งย่าง", "หมูกระทะ", "ขนมทอดร้อนๆ", "เครื่องดื่มชูกำลัง"]
-      };
-
-      const place = trips[mood][Math.floor(Math.random() * trips[mood].length)];
-      const food = foods[mood][Math.floor(Math.random() * foods[mood].length)];
-
-      document.getElementById("result").innerHTML = "✨ สถานที่ที่เหมาะกับคุณ:<br>" + place;
-      document.getElementById("food").innerHTML = "🍽️ อาหารที่เหมาะกับอารมณ์คุณ:<br>" + food;
+      if (mood === "calm") {
+        result.textContent = "แนะนำให้ไปพักผ่อนที่ เขื่อนสิริกิติ์ 🌊";
+        food.textContent = "อาหารแนะนำ: แกงปลา, ปลานึ่งมะนาว 🐟";
+      } else if (mood === "fun") {
+        result.textContent = "แนะนำให้ไปเที่ยวงานประเพณีลางานตี้ 🎉";
+        food.textContent = "อาหารแนะนำ: ก๋วยเตี๋ยวห้อยขา 🍜";
+      } else if (mood === "lonely") {
+        result.textContent = "ลองไปเดินตลาดท่าเสา หาเพื่อนใหม่ๆ 👫";
+        food.textContent = "อาหารแนะนำ: ข้าวซอย 🍲";
+      } else if (mood === "excited") {
+        result.textContent = "ไปปีนดอยผากลอง ชมวิว 360° ⛰️";
+        food.textContent = "อาหารแนะนำ: หมูกระทะ 🔥";
+      }
     }
   </script>
 </body>
-</html>
+  </html>
