@@ -4,15 +4,86 @@
   <meta charset="UTF-8">
   <title>Mood Travel - Uttaradit</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: "Tahoma", sans-serif;
       background: linear-gradient(to right, #f9f7f7, #dbe2ef);
       text-align: center;
       padding: 40px;
     }
+
+    /* LOGIN STYLE */
+    #login-section {
+      max-width: 400px;
+      margin: 100px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      color: #3f72af;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin: 15px 0;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: 2px solid #dbe2ef;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #3f72af;
+      outline: none;
+      box-shadow: 0 0 8px rgba(63, 114, 175, 0.4);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #3f72af;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .login-btn:hover {
+      background-color: #112d4e;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* MOOD SECTION STYLE */
+    #mood-section {
+      display: none;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
     h1 {
       color: #3f72af;
+      margin-bottom: 10px;
     }
+
     .mood-btn {
       margin: 10px;
       padding: 15px 25px;
@@ -21,11 +92,17 @@
       cursor: pointer;
       font-size: 18px;
       color: white;
+      transition: 0.3s;
     }
+
     .calm { background-color: #6a9c89; }
     .fun { background-color: #f67280; }
     .lonely { background-color: #5c5470; }
     .excited { background-color: #ffa931; }
+
+    .mood-btn:hover {
+      transform: scale(1.05);
+    }
 
     #result {
       margin-top: 30px;
@@ -33,28 +110,79 @@
       color: #112d4e;
       font-weight: bold;
     }
+
     #food {
       margin-top: 20px;
       font-size: 18px;
       color: #ff6347;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .credit {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #aaa;
+    }
   </style>
 </head>
 <body>
-  <h1>📌🌏 Mood Travel and food - จังหวัดอุตรดิตถ์</h1>
-  <p>วันนี้คุณรู้สึกอย่างไร🤔 เลือกอารมณ์แล้วเราจะพาไปเที่ยวและแนะนำอาหาร!</p>
 
-  <button class="mood-btn calm" onclick="showTrip('calm')">😌 สงบ</button>
-  <button class="mood-btn fun" onclick="showTrip('fun')">🤩 สนุก</button>
-  <button class="mood-btn lonely" onclick="showTrip('lonely')">🥹 เหงา</button>
-  <button class="mood-btn excited" onclick="showTrip('excited')">😲 ตื่นเต้น</button>
+  <!-- 🔒 LOGIN SECTION -->
+  <div id="login-section">
+    <h2>เข้าสู่ระบบ Mood Travel</h2>
+    <div class="input-group">
+      <input type="text" id="username" placeholder="ชื่อผู้ใช้">
+    </div>
+    <div class="input-group">
+      <input type="password" id="password" placeholder="รหัสผ่าน">
+    </div>
+    <button class="login-btn" onclick="login()">เข้าสู่ระบบ</button>
+    <div class="error" id="error-msg"></div>
+  </div>
 
-  <div id="result"></div>
-  <div id="food"></div>
+  <!-- 🎉 MOOD TRAVEL SECTION -->
+  <div id="mood-section">
+    <h1>📌🌏 Mood Travel and food - จังหวัดอุตรดิตถ์</h1>
+    <p>วันนี้คุณรู้สึกอย่างไร🤔 เลือกอารมณ์แล้วเราจะพาไปเที่ยวและแนะนำอาหาร!</p>
 
+    <button class="mood-btn calm" onclick="showTrip('calm')">😌 สงบ</button>
+    <button class="mood-btn fun" onclick="showTrip('fun')">🤩 สนุก</button>
+    <button class="mood-btn lonely" onclick="showTrip('lonely')">🥹 เหงา</button>
+    <button class="mood-btn excited" onclick="showTrip('excited')">😲 ตื่นเต้น</button>
+
+    <div id="result"></div>
+    <div id="food"></div>
+
+    <div class="credit">© 2025 Mood Travel</div>
+  </div>
+
+  <!-- SCRIPT -->
   <script>
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorMsg = document.getElementById('error-msg');
+
+      if (username === "" || password === "") {
+        errorMsg.textContent = "กรุณากรอกข้อมูลให้ครบถ้วน";
+        return;
+      }
+
+      if (username === "user" && password === "1234") {
+        errorMsg.textContent = "";
+        document.getElementById("login-section").style.display = "none";
+        document.getElementById("mood-section").style.display = "block";
+      } else {
+        errorMsg.textContent = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+      }
+    }
+
     function showTrip(mood) {
-      let trips = {
+      const trips = {
         calm: [
           "วัดพระบรมธาตุทุ่งยั้ง",
           "วัดพระแท่นศิลาอาสน์",
@@ -89,7 +217,7 @@
         ]
       };
 
-      let foods = {
+      const foods = {
         calm: [
           "ข้าวมันไก่",
           "ก๋วยเตี๋ยวเรือ",
@@ -116,12 +244,13 @@
         ]
       };
 
-      let randomTrip = trips[mood][Math.floor(Math.random() * trips[mood].length)];
-      let randomFood = foods[mood][Math.floor(Math.random() * foods[mood].length)];
+      const randomTrip = trips[mood][Math.floor(Math.random() * trips[mood].length)];
+      const randomFood = foods[mood][Math.floor(Math.random() * foods[mood].length)];
 
       document.getElementById("result").innerHTML = "✨ สถานที่ที่เหมาะกับคุณ: <br>" + randomTrip;
       document.getElementById("food").innerHTML = "🍽️ อาหารที่เหมาะกับอารมณ์คุณ: <br>" + randomFood;
     }
   </script>
+
 </body>
 </html>
