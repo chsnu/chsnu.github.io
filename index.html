@@ -4,11 +4,7 @@
   <meta charset="UTF-8">
   <title>Mood Travel - Uttaradit</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: "Tahoma", sans-serif;
@@ -17,11 +13,15 @@
       padding: 40px;
     }
 
-    /* LOGIN STYLE */
-    #login-section {
+    /* Sections */
+    .section { display: none; }
+    .active { display: block; animation: fadeIn 0.6s ease-in-out; }
+
+    /* Form container */
+    .form-box {
+      background: white;
       max-width: 400px;
       margin: 100px auto;
-      background: white;
       padding: 40px;
       border-radius: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -32,16 +32,13 @@
       margin-bottom: 20px;
     }
 
-    .input-group {
-      margin: 15px 0;
-    }
-
+    .input-group { margin: 15px 0; }
     .input-group input {
       width: 100%;
       padding: 12px 15px;
       border-radius: 10px;
       border: 2px solid #dbe2ef;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
 
     .input-group input:focus {
@@ -50,21 +47,28 @@
       box-shadow: 0 0 8px rgba(63, 114, 175, 0.4);
     }
 
-    .login-btn {
-      width: 100%;
-      padding: 12px;
+    button {
+      padding: 12px 20px;
       border: none;
       border-radius: 10px;
       background-color: #3f72af;
       color: white;
       font-size: 16px;
       cursor: pointer;
-      transition: 0.3s ease;
-      margin-top: 10px;
+      transition: 0.3s;
+      margin-top: 15px;
     }
 
-    .login-btn:hover {
+    button:hover {
       background-color: #112d4e;
+    }
+
+    .switch-link {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #3f72af;
+      cursor: pointer;
+      display: block;
     }
 
     .error {
@@ -73,17 +77,7 @@
       font-size: 14px;
     }
 
-    /* MOOD SECTION STYLE */
-    #mood-section {
-      display: none;
-      animation: fadeIn 0.8s ease-in-out;
-    }
-
-    h1 {
-      color: #3f72af;
-      margin-bottom: 10px;
-    }
-
+    /* Mood Buttons */
     .mood-btn {
       margin: 10px;
       padding: 15px 25px;
@@ -100,9 +94,7 @@
     .lonely { background-color: #5c5470; }
     .excited { background-color: #ffa931; }
 
-    .mood-btn:hover {
-      transform: scale(1.05);
-    }
+    .mood-btn:hover { transform: scale(1.05); }
 
     #result {
       margin-top: 30px;
@@ -127,27 +119,54 @@
       font-size: 12px;
       color: #aaa;
     }
+
+    .emoji {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- 🔒 LOGIN SECTION -->
-  <div id="login-section">
-    <h2>เข้าสู่ระบบ Mood Travel</h2>
-    <div class="input-group">
-      <input type="text" id="username" placeholder="ชื่อผู้ใช้">
+  <!-- ✅ LOGIN SECTION -->
+  <div id="login-section" class="section active">
+    <div class="form-box">
+      <div class="emoji">🔐</div>
+      <h2>เข้าสู่ระบบ Mood Travel</h2>
+      <div class="input-group">
+        <input type="text" id="login-username" placeholder="ชื่อผู้ใช้">
+      </div>
+      <div class="input-group">
+        <input type="password" id="login-password" placeholder="รหัสผ่าน">
+      </div>
+      <button onclick="login()">เข้าสู่ระบบ</button>
+      <div class="switch-link" onclick="switchTo('register')">ยังไม่มีบัญชี? สมัครสมาชิก</div>
+      <div class="error" id="login-error"></div>
     </div>
-    <div class="input-group">
-      <input type="password" id="password" placeholder="รหัสผ่าน">
-    </div>
-    <button class="login-btn" onclick="login()">เข้าสู่ระบบ</button>
-    <div class="error" id="error-msg"></div>
   </div>
 
-  <!-- 🎉 MOOD TRAVEL SECTION -->
-  <div id="mood-section">
-    <h1>📌🌏 Mood Travel and food - จังหวัดอุตรดิตถ์</h1>
-    <p>วันนี้คุณรู้สึกอย่างไร🤔 เลือกอารมณ์แล้วเราจะพาไปเที่ยวและแนะนำอาหาร!</p>
+  <!-- ✅ REGISTER SECTION -->
+  <div id="register-section" class="section">
+    <div class="form-box">
+      <div class="emoji">📝</div>
+      <h2>สมัครสมาชิกใหม่</h2>
+      <div class="input-group">
+        <input type="text" id="register-username" placeholder="ชื่อผู้ใช้">
+      </div>
+      <div class="input-group">
+        <input type="password" id="register-password" placeholder="รหัสผ่าน">
+      </div>
+      <button onclick="register()">สมัครสมาชิก</button>
+      <div class="switch-link" onclick="switchTo('login')">มีบัญชีแล้ว? กลับเข้าสู่ระบบ</div>
+      <div class="error" id="register-error"></div>
+    </div>
+  </div>
+
+  <!-- ✅ MOOD TRAVEL SECTION -->
+  <div id="mood-section" class="section">
+    <div class="emoji">🌏</div>
+    <h1>Mood Travel - จังหวัดอุตรดิตถ์</h1>
+    <p>วันนี้คุณรู้สึกอย่างไร 🤔</p>
 
     <button class="mood-btn calm" onclick="showTrip('calm')">😌 สงบ</button>
     <button class="mood-btn fun" onclick="showTrip('fun')">🤩 สนุก</button>
@@ -157,100 +176,59 @@
     <div id="result"></div>
     <div id="food"></div>
 
-    <div class="credit">© 2025 Mood Travel</div>
+    <div class="credit">👤 ยินดีต้อนรับ, <span id="current-user"></span> | <a href="#" onclick="logout()">ออกจากระบบ</a></div>
   </div>
 
-  <!-- SCRIPT -->
   <script>
-    function login() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-      const errorMsg = document.getElementById('error-msg');
+    // สำหรับเก็บชื่อผู้ใช้และรหัสผ่านในหน่วยความจำ
+    const users = {};
 
-      if (username === "" || password === "") {
-        errorMsg.textContent = "กรุณากรอกข้อมูลให้ครบถ้วน";
+    function switchTo(section) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(section + '-section').classList.add('active');
+    }
+
+    function register() {
+      const username = document.getElementById('register-username').value.trim();
+      const password = document.getElementById('register-password').value.trim();
+      const error = document.getElementById('register-error');
+
+      if (!username || !password) {
+        error.textContent = "กรุณากรอกข้อมูลให้ครบถ้วน";
         return;
       }
 
-      if (username === "user" && password === "1234") {
-        errorMsg.textContent = "";
-        document.getElementById("login-section").style.display = "none";
-        document.getElementById("mood-section").style.display = "block";
-      } else {
-        errorMsg.textContent = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+      if (users[username]) {
+        error.textContent = "ชื่อผู้ใช้นี้มีอยู่แล้ว";
+        return;
       }
+
+      users[username] = password;
+      alert("✅ สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ");
+      switchTo('login');
+    }
+
+    function login() {
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+      const error = document.getElementById('login-error');
+
+      if (users[username] === password) {
+        error.textContent = "";
+        document.getElementById("current-user").textContent = username;
+        switchTo('mood');
+      } else {
+        error.textContent = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+      }
+    }
+
+    function logout() {
+      switchTo('login');
+      document.getElementById('login-username').value = "";
+      document.getElementById('login-password').value = "";
     }
 
     function showTrip(mood) {
       const trips = {
-        calm: [
-          "วัดพระบรมธาตุทุ่งยั้ง",
-          "วัดพระแท่นศิลาอาสน์",
-          "อ่างเก็บน้ำห้วยพาง",
-          "สวนสาธารณะบึงพระราม",
-          "ถนนคนเดินยามเย็น",
-          "ชมวิวแม่น้ำน่าน"
-        ],
-        fun: [
-          "ตลาดโคมไฟท่าเสา",
-          "สวนผลไม้ลองกอง-ลางสาด",
-          "ถนนคนเดินอุตรดิตถ์",
-          "ล่องแพไม้ไผ่",
-          "ร้านคาเฟ่ถ่ายรูปเก๋ๆ",
-          "เล่นน้ำตกแม่พูล"
-        ],
-        lonely: [
-          "โฮมสเตย์ชุมชนบ้านน้ำปาด",
-          "ทำอาหารพื้นบ้านกับชุมชนลับแล",
-          "ชมไร่กาแฟลับแล",
-          "เดินป่าเขาหลวง",
-          "พักผ่อนริมแม่น้ำ",
-          "อ่านหนังสือที่คาเฟ่สงบๆ"
-        ],
-        excited: [
-          "อุทยานแห่งชาติลำน้ำน่าน",
-          "น้ำตกแม่พูล",
-          "น้ำตกห้วยคอม",
-          "ผจญภัยล่องแก่ง",
-          "ปีนหน้าผาจำลอง",
-          "ขี่จักรยานเสือภูเขา"
-        ]
-      };
-
-      const foods = {
-        calm: [
-          "ข้าวมันไก่",
-          "ก๋วยเตี๋ยวเรือ",
-          "ส้มตำปูปลาร้า",
-          "น้ำสมุนไพรเย็นๆ"
-        ],
-        fun: [
-          "ไก่ทอดเกลือ",
-          "เบอร์เกอร์ท้องถิ่น",
-          "ชานมไข่มุก",
-          "ขนมไทยสีสันสดใส"
-        ],
-        lonely: [
-          "โจ๊กหมูร้อนๆ",
-          "ข้าวต้มปลา",
-          "กาแฟดำ",
-          "ขนมปังสังขยา"
-        ],
-        excited: [
-          "อาหารปิ้งย่าง",
-          "หมูกระทะ",
-          "ขนมทอดร้อนๆ",
-          "เครื่องดื่มชูกำลัง"
-        ]
-      };
-
-      const randomTrip = trips[mood][Math.floor(Math.random() * trips[mood].length)];
-      const randomFood = foods[mood][Math.floor(Math.random() * foods[mood].length)];
-
-      document.getElementById("result").innerHTML = "✨ สถานที่ที่เหมาะกับคุณ: <br>" + randomTrip;
-      document.getElementById("food").innerHTML = "🍽️ อาหารที่เหมาะกับอารมณ์คุณ: <br>" + randomFood;
-    }
-  </script>
-
-</body>
-</html>
+        calm: ["วัดพระบรมธาตุทุ่งยั้ง", "วัดพระแท่นศิลาอาสน์", "อ่างเก็บน้ำห้วยพาง", "สวนสาธารณะบึงพระราม", "ถนนคนเดินยามเย็น", "ชมวิวแม่น้ำน่าน"],
+        fun: ["ตลาดโคมไฟท่าเสา", "สวนผลไม้ลองกอง-ลางสาด",
