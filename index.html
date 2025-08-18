@@ -2,29 +2,31 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Mood Travel - Uttaradit</title>
+  <title>Mood Travel - อุตรดิตถ์</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: "Tahoma", sans-serif;
-      background: linear-gradient(to right, #f9f7f7, #dbe2ef);
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
       text-align: center;
       padding: 40px;
     }
 
-    /* Sections */
     .section { display: none; }
-    .active { display: block; animation: fadeIn 0.6s ease-in-out; }
+    .active { display: block; animation: fadeIn 0.5s ease-in-out; }
 
-    /* Form container */
     .form-box {
       background: white;
       max-width: 400px;
-      margin: 100px auto;
-      padding: 40px;
+      margin: 60px auto;
+      padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
 
     h2 {
@@ -32,19 +34,22 @@
       margin-bottom: 20px;
     }
 
-    .input-group { margin: 15px 0; }
-    .input-group input {
-      width: 100%;
-      padding: 12px 15px;
-      border-radius: 10px;
-      border: 2px solid #dbe2ef;
-      transition: 0.3s;
+    .input-group {
+      margin: 15px 0;
     }
 
-    .input-group input:focus {
-      border-color: #3f72af;
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #dbe2ef;
+      font-size: 16px;
+    }
+
+    input:focus {
       outline: none;
-      box-shadow: 0 0 8px rgba(63, 114, 175, 0.4);
+      border-color: #3f72af;
+      box-shadow: 0 0 6px rgba(63,114,175,0.3);
     }
 
     button {
@@ -55,7 +60,6 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
-      transition: 0.3s;
       margin-top: 15px;
     }
 
@@ -64,20 +68,24 @@
     }
 
     .switch-link {
-      margin-top: 10px;
+      margin-top: 15px;
+      display: block;
       font-size: 14px;
       color: #3f72af;
       cursor: pointer;
-      display: block;
     }
 
     .error {
       color: red;
-      margin-top: 10px;
       font-size: 14px;
+      margin-top: 10px;
     }
 
-    /* Mood Buttons */
+    .emoji {
+      font-size: 60px;
+      margin-bottom: 15px;
+    }
+
     .mood-btn {
       margin: 10px;
       padding: 15px 25px;
@@ -94,7 +102,9 @@
     .lonely { background-color: #5c5470; }
     .excited { background-color: #ffa931; }
 
-    .mood-btn:hover { transform: scale(1.05); }
+    .mood-btn:hover {
+      transform: scale(1.05);
+    }
 
     #result {
       margin-top: 30px;
@@ -115,20 +125,25 @@
     }
 
     .credit {
-      margin-top: 40px;
+      margin-top: 30px;
       font-size: 12px;
-      color: #aaa;
+      color: #888;
     }
 
-    .emoji {
-      font-size: 60px;
-      margin-bottom: 15px;
+    .doraemon-img {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+
+    a {
+      color: #f67280;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- ✅ LOGIN SECTION -->
+  <!-- LOGIN -->
   <div id="login-section" class="section active">
     <div class="form-box">
       <div class="emoji">🔐</div>
@@ -140,15 +155,15 @@
         <input type="password" id="login-password" placeholder="รหัสผ่าน">
       </div>
       <button onclick="login()">เข้าสู่ระบบ</button>
-      <div class="switch-link" onclick="switchTo('register')">ยังไม่มีบัญชี? สมัครสมาชิก</div>
+      <span class="switch-link" onclick="switchTo('register')">ยังไม่มีบัญชี? สมัครสมาชิก</span>
       <div class="error" id="login-error"></div>
     </div>
   </div>
 
-  <!-- ✅ REGISTER SECTION -->
+  <!-- REGISTER -->
   <div id="register-section" class="section">
     <div class="form-box">
-      <div class="emoji">📝</div>
+      <img src="https://media.giphy.com/media/gw3IWyGkC0rsazTi/giphy.gif" alt="Doraemon" class="doraemon-img">
       <h2>สมัครสมาชิกใหม่</h2>
       <div class="input-group">
         <input type="text" id="register-username" placeholder="ชื่อผู้ใช้">
@@ -157,12 +172,12 @@
         <input type="password" id="register-password" placeholder="รหัสผ่าน">
       </div>
       <button onclick="register()">สมัครสมาชิก</button>
-      <div class="switch-link" onclick="switchTo('login')">มีบัญชีแล้ว? กลับเข้าสู่ระบบ</div>
+      <span class="switch-link" onclick="switchTo('login')">กลับไปหน้าเข้าสู่ระบบ</span>
       <div class="error" id="register-error"></div>
     </div>
   </div>
 
-  <!-- ✅ MOOD TRAVEL SECTION -->
+  <!-- MOOD -->
   <div id="mood-section" class="section">
     <div class="emoji">🌏</div>
     <h1>Mood Travel - จังหวัดอุตรดิตถ์</h1>
@@ -179,9 +194,9 @@
     <div class="credit">👤 ยินดีต้อนรับ, <span id="current-user"></span> | <a href="#" onclick="logout()">ออกจากระบบ</a></div>
   </div>
 
+  <!-- SCRIPT -->
   <script>
-    // สำหรับเก็บชื่อผู้ใช้และรหัสผ่านในหน่วยความจำ
-    const users = {};
+    let users = JSON.parse(localStorage.getItem('users') || '{}');
 
     function switchTo(section) {
       document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
@@ -204,6 +219,7 @@
       }
 
       users[username] = password;
+      localStorage.setItem('users', JSON.stringify(users));
       alert("✅ สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ");
       switchTo('login');
     }
@@ -214,7 +230,7 @@
       const error = document.getElementById('login-error');
 
       if (users[username] === password) {
-        error.textContent = "";
+        localStorage.setItem('currentUser', username);
         document.getElementById("current-user").textContent = username;
         switchTo('mood');
       } else {
@@ -223,12 +239,10 @@
     }
 
     function logout() {
+      localStorage.removeItem('currentUser');
       switchTo('login');
-      document.getElementById('login-username').value = "";
-      document.getElementById('login-password').value = "";
     }
 
-    function showTrip(mood) {
-      const trips = {
-        calm: ["วัดพระบรมธาตุทุ่งยั้ง", "วัดพระแท่นศิลาอาสน์", "อ่างเก็บน้ำห้วยพาง", "สวนสาธารณะบึงพระราม", "ถนนคนเดินยามเย็น", "ชมวิวแม่น้ำน่าน"],
-        fun: ["ตลาดโคมไฟท่าเสา", "สวนผลไม้ลองกอง-ลางสาด",
+    // Auto-login
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
