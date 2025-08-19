@@ -1,264 +1,188 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mood Travel - อุตรดิตถ์</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Tahoma, sans-serif;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
-      text-align: center;
-      padding: 40px;
-    }
-
-    .section { display: none; }
-    .active { display: block; animation: fadeIn 0.5s ease-in-out; }
-
-    .form-box {
-      background: white;
-      max-width: 400px;
-      margin: 60px auto;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    }
-
-    h1, h2 {
-      color: #3f72af;
-      margin-bottom: 20px;
-    }
-
-    .input-group { margin: 15px 0; }
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 2px solid #dbe2ef;
-      font-size: 16px;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #3f72af;
-      box-shadow: 0 0 6px rgba(63,114,175,0.3);
-    }
-
-    button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 10px;
-      background-color: #3f72af;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-
-    button:hover { background-color: #112d4e; }
-    .switch-link {
-      margin-top: 15px;
-      display: block;
-      font-size: 14px;
-      color: #3f72af;
-      cursor: pointer;
-    }
-
-    .error {
-      color: red;
-      font-size: 14px;
-      margin-top: 10px;
-    }
-
-    .emoji {
-      font-size: 60px;
-      margin-bottom: 15px;
-    }
-
-    .mood-btn {
-      margin: 10px;
-      padding: 15px 25px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 18px;
-      color: white;
-      transition: 0.3s;
-    }
-
-    .calm { background-color: #6a9c89; }
-    .fun { background-color: #f67280; }
-    .lonely { background-color: #5c5470; }
-    .excited { background-color: #ffa931; }
-
-    .mood-btn:hover { transform: scale(1.05); }
-
-    #result {
-      margin-top: 30px;
-      font-size: 20px;
-      color: #112d4e;
-      font-weight: bold;
-    }
-
-    #food {
-      margin-top: 20px;
-      font-size: 18px;
-      color: #ff6347;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .credit {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #888;
-    }
-
-    .doraemon-img {
-      width: 150px;
-      margin-bottom: 20px;
-    }
-
-    a { color: #f67280; text-decoration: none; }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      body { padding: 20px; }
-      .form-box { width: 90%; padding: 20px; }
-      h1 { font-size: 22px; }
-      h2 { font-size: 20px; }
-      input { font-size: 14px; padding: 10px; }
-      button { font-size: 15px; padding: 10px 16px; }
-      .mood-btn {
-        font-size: 16px;
-        padding: 12px 20px;
-        width: 100%;
-        max-width: 280px;
-      }
-      .emoji { font-size: 48px; }
-      .doraemon-img { width: 120px; }
-      #result, #food { font-size: 16px; }
-      .credit { font-size: 11px; margin-top: 20px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Mood Travel - Full</title>
+<style>
+body{margin:0;font-family:'Orbitron',sans-serif;background:radial-gradient(circle,#0f0f1f,#000);color:#0ff;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding-top:20px;}
+.page{display:none;transition:margin-left 0.4s;}
+.active{display:block;}
+.container{background: rgba(0,0,20,0.95); padding:40px; border-radius:25px; box-shadow:0 0 30px #0ff,0 0 50px #f0f,0 0 70px #ff0;width:350px;text-align:center;position:relative;transition: margin-left 0.4s;}
+.page.container.menu-open{margin-left:250px;}
+h1{background:linear-gradient(90deg,#ff00ff,#00ffff,#ffcc00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:25px;}
+input{width:100%;padding:12px;margin:12px 0;border-radius:12px;border:2px solid #0ff;background:rgba(0,255,255,0.05);color:#0ff;font-weight:bold;outline:none;transition:0.3s;}
+input:focus{border-color:#ff0;background:rgba(255,255,0,0.1);}
+button{padding:12px 20px;margin:8px 0;border-radius:30px;border:none;background:linear-gradient(90deg,#ff00ff,#00ffff,#ffcc00);cursor:pointer;color:#000;font-weight:bold;width:100%;transition:0.3s;}
+button:hover{transform:scale(1.05);box-shadow:0 0 15px #0ff,0 0 25px #f0f,0 0 35px #ff0;}
+.toast{position: fixed;top: 20px;right: 20px;background: #0ff;color: #000;padding: 15px 20px;border-radius: 15px;font-weight: bold;box-shadow: 0 0 15px #0ff,0 0 25px #f0f;opacity: 0;transition: 0.5s; z-index: 200;}
+.toast.show{opacity: 1;}
+.switch{color:#ff0;cursor:pointer;margin-top:10px;display:block;font-size:14px;}
+.mood-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:20px;text-align:center;}
+.mood-card{padding:30px 15px;border-radius:20px;background:rgba(20,20,40,0.85);cursor:pointer;transition:.3s;position:relative;box-shadow:0 0 20px rgba(0,255,255,0.2);}
+.mood-card:hover{transform:scale(1.05);box-shadow:0 0 35px rgba(0,255,255,0.8);}
+.emoji{font-size:2.5rem;display:block;margin-bottom:10px;}
+.side-menu{position:fixed;top:0;left:-250px;width:250px;height:100%;background:#111;transition:.4s;padding:20px;z-index:100;overflow:auto;}
+.side-menu.active{left:0;}
+.hamburger{position:fixed;top:15px;left:15px;width:35px;height:30px;cursor:pointer;z-index:101;}
+.hamburger div{width:100%;height:5px;background:#0ff;margin:6px 0;transition:.4s;}
+.place{background:rgba(20,20,40,0.9);padding:20px;border-radius:20px;margin:20px 0;box-shadow:0 0 20px rgba(0,255,255,0.3);}
+.place h2{color:#0ff;margin-bottom:10px;}
+ul{list-style:none;padding-left:0;margin:0;}
+ul li a{color:#ffcc00;text-decoration:none;}
+ul li a:hover{text-decoration:underline;}
+.comment-box{margin-top:10px;display:flex;gap:5px;}
+.comment-box input{flex:1;padding:6px;border-radius:8px;border:none;background:rgba(0,255,255,0.05);color:#0ff;}
+.comment-box button{padding:6px 10px;border-radius:12px;border:none;background:#0ff;color:#000;cursor:pointer;}
+.comment-list{margin-top:10px;max-height:150px;overflow:auto;}
+.comment-item{background:#222;padding:5px;margin:3px 0;border-radius:5px;}
+.map-btn{margin-top:5px;padding:6px 10px;border-radius:12px;border:none;background:#ff0;color:#000;cursor:pointer;display:inline-block;font-weight:bold;}
+</style>
 </head>
 <body>
 
-  <!-- LOGIN -->
-  <div id="login-section" class="section active">
-    <div class="form-box">
-      <div class="emoji">🔐</div>
-      <h2>เข้าสู่ระบบ Mood Travel</h2>
-      <div class="input-group">
-        <input type="text" id="login-username" placeholder="ชื่อผู้ใช้">
-      </div>
-      <div class="input-group">
-        <input type="password" id="login-password" placeholder="รหัสผ่าน">
-      </div>
-      <button onclick="login()">เข้าสู่ระบบ</button>
-      <span class="switch-link" onclick="switchTo('register')">ยังไม่มีบัญชี? สมัครสมาชิก</span>
-      <div class="error" id="login-error"></div>
-    </div>
-  </div>
+<!-- LOGIN -->
+<div id="loginPage" class="page active container">
+<h1>🔐 Mood Travel</h1>
+<input type="text" id="loginUser" placeholder="ชื่อผู้ใช้">
+<input type="password" id="loginPass" placeholder="รหัสผ่าน">
+<button onclick="login()">เข้าสู่ระบบ</button>
+<span class="switch" onclick="showRegister()">ยังไม่มีบัญชี? สมัครสมาชิก</span>
+</div>
 
-  <!-- REGISTER -->
-  <div id="register-section" class="section">
-    <div class="form-box">
-      <img src="https://media.giphy.com/media/gw3IWyGkC0rsazTi/giphy.gif" alt="Doraemon" class="doraemon-img">
-      <h2>สมัครสมาชิกใหม่</h2>
-      <div class="input-group">
-        <input type="text" id="register-username" placeholder="ชื่อผู้ใช้">
-      </div>
-      <div class="input-group">
-        <input type="password" id="register-password" placeholder="รหัสผ่าน">
-      </div>
-      <button onclick="register()">สมัครสมาชิก</button>
-      <span class="switch-link" onclick="switchTo('login')">กลับไปหน้าเข้าสู่ระบบ</span>
-      <div class="error" id="register-error"></div>
-    </div>
-  </div>
+<!-- REGISTER -->
+<div id="registerPage" class="page container">
+<h1>📝 สมัครสมาชิก</h1>
+<input type="text" id="regUser" placeholder="ชื่อผู้ใช้">
+<input type="password" id="regPass" placeholder="รหัสผ่าน">
+<button onclick="register()">สมัครสมาชิก</button>
+<span class="switch" onclick="showLogin()">กลับไปหน้าเข้าสู่ระบบ</span>
+</div>
 
-  <!-- MOOD -->
-  <div id="mood-section" class="section">
-    <div class="emoji">🌏</div>
-    <h1>Mood Travel - จังหวัดอุตรดิตถ์</h1>
-    <p>วันนี้คุณรู้สึกอย่างไร 🤔</p>
+<!-- MOOD SELECTION -->
+<div id="moodPage" class="page container">
+<div class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></div>
+<div class="side-menu" id="sideMenu">
+<h2>👤 โปรไฟล์</h2>
+<p id="profileName"></p>
+<h3>ประวัติเลือกอารมณ์</h3>
+<ul id="historyList"></ul>
+<button onclick="logout()">ออกจากระบบ</button>
+</div>
+<h1>🚀 เลือกอารมณ์ของคุณ</h1>
+<div class="mood-grid">
+<div class="mood-card" onclick="showTrips('calm')"><span class="emoji">😌</span>สงบ</div>
+<div class="mood-card" onclick="showTrips('fun')"><span class="emoji">😆</span>สนุก</div>
+<div class="mood-card" onclick="showTrips('lonely')"><span class="emoji">😔</span>เหงา</div>
+<div class="mood-card" onclick="showTrips('excited')"><span class="emoji">🤯</span>ตื่นเต้น</div>
+</div>
+</div>
 
-    <button class="mood-btn calm" onclick="showTrip('calm')">😌 สงบ</button>
-    <button class="mood-btn fun" onclick="showTrip('fun')">🤩 สนุก</button>
-    <button class="mood-btn lonely" onclick="showTrip('lonely')">🥹 เหงา</button>
-    <button class="mood-btn excited" onclick="showTrip('excited')">🤯 ตื่นเต้น</button>
+<!-- TRIP PAGE -->
+<div id="tripPage" class="page container">
+<div class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></div>
+<div class="side-menu" id="sideMenu2">
+<h2>👤 โปรไฟล์</h2>
+<p id="profileName2"></p>
+<h3>ประวัติเลือกอารมณ์</h3>
+<ul id="historyList2"></ul>
+<button onclick="logout()">ออกจากระบบ</button>
+</div>
+<h1>🌍 สถานที่ท่องเที่ยว</h1>
+<div id="tripList"></div>
+<button onclick="switchPage('moodPage')">กลับ</button>
+</div>
 
-    <div id="result"></div>
-    <div id="food"></div>
+<div id="toast" class="toast"></div>
 
-    <div class="credit">Mood Travel © 2025 - จังหวัดอุตรดิตถ์</div>
-  </div>
+<script>
+let currentUser=null;
+let moodHistory=[];
 
-  <script>
-    // เก็บ user ไว้ชั่วคราว (จำลอง database)
-    let users = {};
+const trips={
+  calm:[{name:"อ่างเก็บน้ำห้วยไร่",map:"https://www.google.com/maps?q=อ่างเก็บน้ำห้วยไร่",foods:[{name:"ครัวห้วยไร่",link:"https://www.google.com/maps?q=ครัวห้วยไร่"}]}],
+  fun:[{name:"สนามกีฬากลางอุตรดิตถ์",map:"https://www.google.com/maps?q=สนามกีฬากลางอุตรดิตถ์",foods:[{name:"ก๋วยเตี๋ยวเจ๊แดง",link:"https://www.google.com/maps?q=ก๋วยเตี๋ยวเจ๊แดง"}]}],
+  lonely:[{name:"วัดพระแท่นศิลาอาสน์",map:"https://www.google.com/maps?q=วัดพระแท่นศิลาอาสน์",foods:[{name:"ร้านเจ๊เล็ก",link:"https://www.google.com/maps?q=ร้านเจ๊เล็ก"}]}],
+  excited:[{name:"น้ำตกแม่พูล",map:"https://www.google.com/maps?q=น้ำตกแม่พูล",foods:[{name:"ร้านอาหารป่ามะขาม",link:"https://www.google.com/maps?q=ร้านอาหารป่ามะขาม"}]}]
+};
 
-    function switchTo(section) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(section + "-section").classList.add('active');
-    }
-
-    function register() {
-      const username = document.getElementById("register-username").value.trim();
-      const password = document.getElementById("register-password").value.trim();
-      const error = document.getElementById("register-error");
-
-      if (!username || !password) {
-        error.textContent = "กรุณากรอกข้อมูลให้ครบถ้วน";
-        return;
-      }
-
-      if (users[username]) {
-        error.textContent = "ชื่อผู้ใช้นี้มีอยู่แล้ว";
-        return;
-      }
-
-      users[username] = password;
-      alert("สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ");
-      switchTo('login');
-    }
-
-    function login() {
-      const username = document.getElementById("login-username").value.trim();
-      const password = document.getElementById("login-password").value.trim();
-      const error = document.getElementById("login-error");
-
-      if (!users[username] || users[username] !== password) {
-        error.textContent = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
-        return;
-      }
-
-      switchTo('mood');
-    }
-
-    function showTrip(mood) {
-      const result = document.getElementById("result");
-      const food = document.getElementById("food");
-
-      if (mood === "calm") {
-        result.textContent = "แนะนำให้ไปพักผ่อนที่ เขื่อนสิริกิติ์ 🌊";
-        food.textContent = "อาหารแนะนำ: แกงปลา, ปลานึ่งมะนาว 🐟";
-      } else if (mood === "fun") {
-        result.textContent = "แนะนำให้ไปเที่ยวงานประเพณีลางานตี้ 🎉";
-        food.textContent = "อาหารแนะนำ: ก๋วยเตี๋ยวห้อยขา 🍜";
-      } else if (mood === "lonely") {
-        result.textContent = "ลองไปเดินตลาดท่าเสา หาเพื่อนใหม่ๆ 👫";
-        food.textContent = "อาหารแนะนำ: ข้าวซอย 🍲";
-      } else if (mood === "excited") {
-        result.textContent = "ไปปีนดอยผากลอง ชมวิว 360° ⛰️";
-        food.textContent = "อาหารแนะนำ: หมูกระทะ 🔥";
-      }
-    }
-  </script>
+function showToast(msg,color="#0ff"){const t=document.getElementById('toast');t.innerText=msg;t.style.background=color;t.classList.add('show');setTimeout(()=>{t.classList.remove('show');},3000);}
+function showLogin(){switchPage('loginPage');}
+function showRegister(){switchPage('registerPage');}
+function switchPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function register(){
+  let u=document.getElementById('regUser').value.trim();
+  let p=document.getElementById('regPass').value.trim();
+  if(!u||!p){showToast("กรอกให้ครบ","#f00");return;}
+  let users=JSON.parse(localStorage.getItem("users")||"{}");
+  if(users[u]){showToast("ชื่อผู้ใช้นี้มีแล้ว","#f00");return;}
+  users[u]=p;localStorage.setItem("users",JSON.stringify(users));
+  showToast("สมัครสมาชิกสำเร็จ","#0f0");showLogin();
+}
+function login(){
+  let u=document.getElementById('loginUser').value.trim();
+  let p=document.getElementById('loginPass').value.trim();
+  let users=JSON.parse(localStorage.getItem("users")||"{}");
+  if(users[u]&&users[u]===p){
+    currentUser=u;moodHistory=JSON.parse(localStorage.getItem(u+"_history")||"[]");
+    updateProfile();switchPage('moodPage');showToast("เข้าสู่ระบบสำเร็จ","#0f0");
+  } else {showToast("ชื่อผู้ใช้หรือรหัสผ่านผิด","#f00");}
+}
+function logout(){currentUser=null;moodHistory=[];switchPage('loginPage');showToast("ออกจากระบบแล้ว","#ff0");}
+function updateProfile(){
+  document.getElementById('profileName').innerText=currentUser;
+  document.getElementById('profileName2').innerText=currentUser;
+  renderHistory();
+}
+function renderHistory(){
+  let h1=document.getElementById('historyList'); let h2=document.getElementById('historyList2'); h1.innerHTML=h2.innerHTML="";
+  moodHistory.forEach(h=>{let li=document.createElement("li");li.innerText=`${h.mood} : ${h.time}`;h1.appendChild(li);h2.appendChild(li.cloneNode(true));});
+}
+function toggleMenu(){
+  document.querySelectorAll('.side-menu').forEach(m=>m.classList.toggle('active'));
+  document.querySelectorAll('.page.active').forEach(p=>p.classList.toggle('menu-open'));
+}
+function showTrips(mood){
+  if(!currentUser){showToast("ต้องล็อกอินก่อน","#f00");return;}
+  moodHistory.push({mood,time:new Date().toLocaleString()});
+  localStorage.setItem(currentUser+"_history",JSON.stringify(moodHistory));
+  updateProfile();
+  let list=document.getElementById('tripList'); list.innerHTML="";
+  trips[mood].forEach(place=>{
+    let div=document.createElement('div');div.className='place';
+    div.innerHTML=`<h2>${place.name}</h2>
+    <a class="map-btn" target="_blank" href="${place.map}">ดูแผนที่ใน Google Maps</a>
+    <h3>🍜 ร้านอาหารใกล้เคียง</h3>
+    <ul>${place.foods.map(f=>`<li><a href="${f.link}" target="_blank">${f.name}</a></li>`).join('')}</ul>
+    <div class="comment-box">
+      <input type="text" placeholder="คอมเมนต์..." data-place="${place.name}">
+      <button onclick="addComment('${place.name}')">ส่ง</button>
+      <div class="comment-list" id="commentList_${place.name.replace(/\s/g,'')}"></div>
+    </div>`;
+    list.appendChild(div);
+    renderComments(place.name);
+  });
+  switchPage('tripPage');
+}
+function addComment(placeName){
+  let input=document.querySelector(`input[data-place='${placeName}']`);
+  if(input.value){
+    let comments=JSON.parse(localStorage.getItem("comments_"+placeName)||"[]");
+    comments.push({user:currentUser,text:input.value});
+    localStorage.setItem("comments_"+placeName,JSON.stringify(comments));
+    renderComments(placeName);
+    input.value="";
+  }
+}
+function renderComments(placeName){
+  let list=document.getElementById("commentList_"+placeName.replace(/\s/g,''));
+  list.innerHTML="";
+  let comments=JSON.parse(localStorage.getItem("comments_"+placeName)||"[]");
+  comments.forEach(c=>{
+    let div=document.createElement('div'); div.className='comment-item';
+    div.innerText=`${c.user}: ${c.text}`;
+    list.appendChild(div);
+  });
+}
+</script>
 </body>
-  </html>
+</html>
